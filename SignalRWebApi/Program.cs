@@ -1,12 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using SignalRDataAccessLayer.Concrete;
-
+using SignalRBusinessLayer.Conteiner;
+using SignalRWebApi.Mapping;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<SignalRContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.ConteinerDependencies();
+
+builder.Services.AddAutoMapper(typeof(GeneralMapping));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
