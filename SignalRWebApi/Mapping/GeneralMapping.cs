@@ -79,14 +79,17 @@ namespace SignalRWebApi.Mapping
 
             #region Product Mapping
 
-
             CreateMap<Product, ResultProductDTO>().ReverseMap();
             CreateMap<Product, CreateProductDTO>().ReverseMap();
             CreateMap<Product, UpdateProductDTO>().ReverseMap();
             CreateMap<Product, GetByIdProductDTO>().ReverseMap();
 
+            // Burasını Yazdık Çünkü Nested Yapıda Geliyor veriler
+            CreateMap<Product, ResultProductWithCategory>()
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category!.CategoryName));
 
             #endregion
+
 
 
 

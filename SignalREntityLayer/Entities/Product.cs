@@ -16,6 +16,8 @@ namespace SignalREntityLayer.Entities
         [Precision(18, 2)]
         public decimal Price { get; set; }
         public string? ImageUrl { get; set; }
-        public string? ProductStatus { get; set; }
+        public bool ProductStatus { get; set; }
+        public int CategoryID { get; set; }
+        public Category? Category { get; set; }
     }
 }
