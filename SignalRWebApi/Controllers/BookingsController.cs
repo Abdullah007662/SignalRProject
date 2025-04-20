@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalRBusinessLayer.Abstract;
-using SignalRDtoLayer.BookingDTO;
+using SignalRDtoLayer.ApiDTO.BookingDTO;
 using SignalREntityLayer.Entities;
 
 namespace SignalRWebApi.Controllers
@@ -41,7 +41,7 @@ namespace SignalRWebApi.Controllers
             _bookingService.BUpdate(_mapper.Map<Booking>(dTO));
             return Ok("Rezervasyon Başarılı Bir Şekilde Güncellendi");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteBooking(int id)
         {
             var bookingDto = _bookingService.BGetById(id);

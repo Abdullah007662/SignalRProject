@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalRBusinessLayer.Abstract;
-using SignalRDtoLayer.ContactDTO;
-using SignalRDtoLayer.ProductDTO;
+using SignalRDtoLayer.ApiDTO.ProductDTO;
 using SignalREntityLayer.Entities;
 
 namespace SignalRWebApi.Controllers
@@ -39,7 +38,7 @@ namespace SignalRWebApi.Controllers
             _productService.BUpdate(_mapper.Map<Product>(dTO));
             return Ok("Başarılı Bir Şekilde Güncellendi");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
             var value = _productService.BGetById(id);

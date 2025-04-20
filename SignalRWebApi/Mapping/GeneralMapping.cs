@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using SignalRDtoLayer.AboutDTO;
-using SignalRDtoLayer.BookingDTO;
-using SignalRDtoLayer.CategoryDTO;
-using SignalRDtoLayer.ContactDTO;
-using SignalRDtoLayer.DiscountDTO;
-using SignalRDtoLayer.FeatureDTO;
-using SignalRDtoLayer.ProductDTO;
-using SignalRDtoLayer.SocialMediaDTO;
-using SignalRDtoLayer.TestimonialDTO;
+using SignalRDtoLayer.ApiDTO.AboutDTO;
+using SignalRDtoLayer.ApiDTO.BookingDTO;
+using SignalRDtoLayer.ApiDTO.CategoryDTO;
+using SignalRDtoLayer.ApiDTO.ContactDTO;
+using SignalRDtoLayer.ApiDTO.DiscountDTO;
+using SignalRDtoLayer.ApiDTO.FeatureDTO;
+using SignalRDtoLayer.ApiDTO.ProductDTO;
+using SignalRDtoLayer.ApiDTO.SocialMediaDTO;
+using SignalRDtoLayer.ApiDTO.TestimonialDTO;
 using SignalREntityLayer.Entities;
 
 namespace SignalRWebApi.Mapping

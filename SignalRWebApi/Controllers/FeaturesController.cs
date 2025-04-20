@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalRBusinessLayer.Abstract;
-using SignalRDtoLayer.ContactDTO;
-using SignalRDtoLayer.FeatureDTO;
+using SignalRDtoLayer.ApiDTO.FeatureDTO;
 using SignalREntityLayer.Entities;
 
 namespace SignalRWebApi.Controllers
@@ -39,7 +38,7 @@ namespace SignalRWebApi.Controllers
             _featureService.BUpdate(_mapper.Map<Feature>(dTO));
             return Ok("Başarılı Bir Şekilde Güncellendi");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteFeature(int id)
         {
             var value = _featureService.BGetById(id);

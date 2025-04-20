@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalRBusinessLayer.Abstract;
-using SignalRDtoLayer.CategoryDTO;
+using SignalRDtoLayer.ApiDTO.CategoryDTO;
 using SignalREntityLayer.Entities;
 
 namespace SignalRWebApi.Controllers
@@ -32,7 +32,7 @@ namespace SignalRWebApi.Controllers
             _categoryService.BAdd(_mapper.Map<Category>(createCategoryDTO));
             return Ok("Kategori Başarılı Bir Şekilde Oluşturuldu");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult CategoryDelete(int id)
         {
             var value = _categoryService.BGetById(id);

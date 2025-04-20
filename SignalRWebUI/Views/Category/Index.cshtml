@@ -1,8 +1,87 @@
-﻿
+﻿@model List<SignalRWebUI.DTO.CategoryDTO.ResultCategoryDTO>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Kategori Listesi";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
-<h1>Index</h1>
+<br />
+<br />
 
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Kategori Adı</th>
+            <th scope="col">Durumu</th>
+            <th scope="col">Güncelle</th>
+            <th scope="col">Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CategoryID</td>
+                <td>@item.CategoryName</td>
+                <td>@(item.Status ? "Aktif" : "Pasif")</td>
+                <td><a href="#" class="btn btn-outline-success btn-sm">Güncelle</a></td>
+                <td><a href="#" class="btn btn-outline-danger btn-sm" onclick="deleteCategory(@item.CategoryID)">Sil</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<a href="/Category/CreateCategory/" class="btn btn-outline-primary">Yeni Kategori Girişi</a>
+
+<!-- SweetAlert ve jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function deleteCategory(categoryId) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // AJAX request for deleting category
+                $.ajax({
+                    url: '/Category/DeleteCategory/' + categoryId,
+                    type: 'POST',
+                    success: function (response) {
+                        // Show success alert after successful deletion
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your category has been deleted.",
+                            icon: "success"
+                        }).then(() => {
+                            // Optionally reload the page to refresh the list
+                            location.reload();
+                        });
+                    },
+                    error: function () {
+                        // Show error alert if the request fails
+                        Swal.fire({
+                            title: "Error!",
+                            text: "There was an error deleting the category.",
+                            icon: "error"
+                        });
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // Handle cancelation of deletion
+                Swal.fire({
+                    title: "Cancelled",
+                    text: "Your category is safe :)",
+                    icon: "error"
+                });
+            }
+        });
+    }
+</script>

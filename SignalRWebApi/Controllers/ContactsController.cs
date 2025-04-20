@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalRBusinessLayer.Abstract;
-using SignalRDtoLayer.ContactDTO;
+using SignalRDtoLayer.ApiDTO.ContactDTO;
 using SignalREntityLayer.Entities;
 
 namespace SignalRWebApi.Controllers
@@ -37,7 +37,7 @@ namespace SignalRWebApi.Controllers
             _contactService.BUpdate(_mapper.Map<Contact>(dTO));
             return Ok("Başarılı Bir Şekilde Güncellendi");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteContact(int id)
         {
             var value = _contactService.BGetById(id);

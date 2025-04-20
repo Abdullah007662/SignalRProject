@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalRBusinessLayer.Abstract;
-using SignalRDtoLayer.ContactDTO;
-using SignalRDtoLayer.TestimonialDTO;
+using SignalRDtoLayer.ApiDTO.TestimonialDTO;
 using SignalREntityLayer.Entities;
 
 namespace SignalRWebApi.Controllers
@@ -39,7 +38,7 @@ namespace SignalRWebApi.Controllers
             _testimonialService.BUpdate(_mapper.Map<Testimonial>(dTO));
             return Ok("Başarılı Bir Şekilde Güncellendi");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteTestimonial(int id)
         {
             var value = _testimonialService.BGetById(id);

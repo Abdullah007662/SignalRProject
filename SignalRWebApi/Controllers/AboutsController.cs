@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SignalRBusinessLayer.Abstract;
-using SignalRDtoLayer.AboutDTO;
+using SignalRDtoLayer.ApiDTO.AboutDTO;
 using SignalREntityLayer.Entities;
 
 namespace SignalRWebApi.Controllers
@@ -33,7 +33,7 @@ namespace SignalRWebApi.Controllers
             return Ok("Hakkımızda bilgisi başarıyla eklendi.");
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteAbout(int id)
         {
             var about = _aboutService.BGetById(id);

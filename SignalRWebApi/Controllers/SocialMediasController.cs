@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalRBusinessLayer.Abstract;
-using SignalRDtoLayer.ContactDTO;
-using SignalRDtoLayer.SocialMediaDTO;
+using SignalRDtoLayer.ApiDTO.SocialMediaDTO;
 using SignalREntityLayer.Entities;
 
 namespace SignalRWebApi.Controllers
@@ -39,7 +38,7 @@ namespace SignalRWebApi.Controllers
             socialMediaService.BUpdate(_mapper.Map<SocialMedia>(dTO));
             return Ok("Başarılı Bir Şekilde Güncellendi");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteSocialMedia(int id)
         {
             var value = socialMediaService.BGetById(id);

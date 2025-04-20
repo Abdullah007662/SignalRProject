@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalRBusinessLayer.Abstract;
-using SignalRDtoLayer.DiscountDTO;
+using SignalRDtoLayer.ApiDTO.DiscountDTO;
 using SignalREntityLayer.Entities;
 
 namespace SignalRWebApi.Controllers
@@ -37,7 +37,7 @@ namespace SignalRWebApi.Controllers
             _discountService.BUpdate(_mapper.Map<Discount>(dTO));
             return Ok("Başarılı Bir Şekilde Güncellendi.!");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteDiscount(int id)
         {
             var value = _discountService.BGetById(id);
