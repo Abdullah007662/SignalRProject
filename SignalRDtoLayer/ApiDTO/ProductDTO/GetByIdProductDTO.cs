@@ -14,5 +14,7 @@ namespace SignalRDtoLayer.ApiDTO.ProductDTO
         public decimal Price { get; set; }
         public string? ImageUrl { get; set; }
         public string? ProductStatus { get; set; }
+        public int CategoryID { get; set; }
+
     }
 }

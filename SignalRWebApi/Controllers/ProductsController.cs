@@ -26,6 +26,24 @@ namespace SignalRWebApi.Controllers
             var values = _mapper.Map<List<ResultProductDTO>>(_productService.BGetListAll());
             return Ok(values);
         }
+        [HttpGet("ProductCount")]
+        public IActionResult ProductCount()
+        {
+            var values = _productService.ProductCount();
+            return Ok(values);
+        }
+        [HttpGet("BProductCountByCategoryNameDrink")]
+        public IActionResult BProductCountByCategoryNameDrink()
+        {
+            var values = _productService.BProductCountByCategoryNameDrink();
+            return Ok(values);
+        }
+        [HttpGet("BProductCountByCategoryNameHamburger")]
+        public IActionResult BProductCountByCategoryNameHamburger()
+        {
+            var values = _productService.BProductCountByCategoryNameHamburger();
+            return Ok(values);
+        }
         [HttpPost]
         public IActionResult CreateProduct(CreateProductDTO dTO)
         {
@@ -45,7 +63,7 @@ namespace SignalRWebApi.Controllers
             _productService.BDelete(value);
             return Ok("Başarılı Bir Şekilde Silindi");
         }
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var value = _productService.BGetById(id);

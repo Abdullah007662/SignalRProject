@@ -1,0 +1,43 @@
+﻿@model CreateFeatureDTO
+@{
+    ViewData["Title"] = "CreateFeature";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-default rounded h-100 p-4">
+                <h6 class="mb-4 text-white">Yeni Öne Çıkan Ekleme Sayfası</h6>
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label text-white">Başlık 1</label>
+                        <input type="text" asp-for="Title1" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Açıklama 1</label>
+                        <input type="text" asp-for="Dexcription1" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Başlık 2</label>
+                        <input type="text" asp-for="Title2" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Açıklama 2</label>
+                        <input type="text" asp-for="Dexcription2" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Başlık 3</label>
+                        <input type="text" asp-for="Title3" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Açıklama 3</label>
+                        <input type="text" asp-for="Dexcription3" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-success">Öne Çıkanı Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

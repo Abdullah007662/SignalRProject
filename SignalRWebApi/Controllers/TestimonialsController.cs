@@ -45,7 +45,7 @@ namespace SignalRWebApi.Controllers
             _testimonialService.BDelete(value);
             return Ok("Başarılı Bir Şekilde Silindi");
         }
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var value = _testimonialService.BGetById(id);

@@ -46,7 +46,7 @@ namespace SignalRWebApi.Controllers
             _aboutService.BUpdate(_mapper.Map<About>(updateAboutDTO));
             return Ok("Hakkımızda bilgisi başarıyla güncellendi.");
         }
-        [HttpGet("GetByID")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var value = _aboutService.BGetById(id);

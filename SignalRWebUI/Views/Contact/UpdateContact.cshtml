@@ -1,0 +1,38 @@
+﻿@model UpdateContactDTO
+@{
+    ViewData["Title"] = "UpdateContact";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-default rounded h-100 p-4">
+                <h6 class="mb-4 text-white">İletişim Güncelleme Sayfası</h6>
+                <form method="post">
+                    <input type="hidden" asp-for="ContactID" />
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Lokasyon</label>
+                        <input type="text" asp-for="Location" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Telefon Numarası</label>
+                        <input type="text" asp-for="PhoneNumber" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Email</label>
+                        <input type="text" asp-for="Email" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Alt Açıklama</label>
+                        <input type="text" asp-for="FooterDescription" class="form-control" />
+                    </div>
+
+                    <button type="submit" class="btn btn-success">İletişimi Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

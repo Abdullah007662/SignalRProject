@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Index</h1>
+
+<!-- Gerekli script dosyaları -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+<!-- SignalR script (wwwroot altındaki doğru yol) -->
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            const connection = new signalR.HubConnectionBuilder()
+                                .withUrl("https://localhost:7198/signalrhub") // API hub adresin
+                                .build();
+
+                            // Bağlantı durumu başlangıçta
+                            $("#connstatus").text("Bağlantı kuruluyor...");
+
+                            // Bağlantı kurulduğunda yapılacaklar
+                            connection.start().then(function () {
+                                $("#connstatus").text("Bağlantı kuruldu ✅");
+
+                                // Sunucuya bir istek gönder (bağlantı kurulduktan sonra)
+                                connection.invoke("SendCategoryCount").catch(function (err) {
+                                    console.error("Sunucuya istek gönderilemedi:", err);
+                                });
+
+                            }).catch(function (err) {
+                                console.error("Bağlantı hatası:", err.toString());
+                                $("#connstatus").text("Bağlantı kurulamadı ❌");
+                            });
+
+                            // Bağlantı koparsa
+                            connection.onclose(function () {
+                                $("#connstatus").text("Bağlantı kesildi ❌");
+                            });
+
+                            // Sunucudan değer alındığında
+                            connection.on("ReceiverCategoryCount", function (value) {
+                                $("#categorycount").text(value);
+                            });
+
+                            // (İsteğe bağlı) farklı bir isimle aynı veriyi dinle
+                            connection.on("ReceiveCategoryCount", function (value) {
+                                $("#categorycount").text(value);
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bilgilendirme alanı -->
+<div class="row mt-3">
+    <div class="col-md-8 offset-2">
+        <div class="alert alert-success">Bağlantının Durumu: <strong id="connstatus">Bekleniyor...</strong></div>
+        <div class="alert alert-info">Kategori Sayısı: <strong id="categorycount">0</strong></div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+﻿@model UpdateProductDTO
+@{
+    ViewData["Title"] = "UpdateProduct";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-default rounded h-100 p-4">
+                <h6 class="mb-4 text-white">Ürün Güncelleme Sayfası</h6>
+                <form method="post">
+                    @Html.HiddenFor(m => m.ProductID) <!-- GİZLİ INPUT DÜZENLENDİ -->
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Ürün Adı</label>
+                        <input type="text" asp-for="ProductName" class="form-control" />
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Fiyat</label>
+                        <input type="number" asp-for="Price" step="0.01" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Açıklama</label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Resim Url</label>
+                        <input type="text" asp-for="ImageUrl" class="form-control" />
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Kategori</label>
+                        <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.Categories"></select>
+                        <span asp-validation-for="CategoryID" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Durum</label>
+                        <select asp-for="ProductStatus" class="form-control">
+                            <option value="true">Aktif</option>
+                            <option value="false">Pasif</option>
+                        </select>
+                        <span asp-validation-for="ProductStatus" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Ürünü Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

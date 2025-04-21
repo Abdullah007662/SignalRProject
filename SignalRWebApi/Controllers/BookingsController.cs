@@ -49,7 +49,7 @@ namespace SignalRWebApi.Controllers
             _bookingService.BDelete(bookingEntity);
             return Ok("Rezervasyon Başarılı Bir Şekilde Silindi");
         }
-        [HttpGet("GetByID")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var value = _bookingService.BGetById(id);

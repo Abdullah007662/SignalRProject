@@ -47,6 +47,7 @@ namespace SignalRWebUI.Controllers
             }
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> DeleteCategory(int id)
         {
@@ -54,10 +55,40 @@ namespace SignalRWebUI.Controllers
 
             if (responseMessage.IsSuccessStatusCode)
             {
-                return Ok(); 
+                return Ok();
             }
-            return BadRequest(); 
+            return BadRequest();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> UpdateCategory(int id)
+        {
+            var response = await _httpClient.GetAsync($"api/Categories/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonData = await response.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<UpdateCategoryDTO>(jsonData);
+                return View(values);
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCategory(UpdateCategoryDTO dto)
+        {
+            var jsonData = JsonConvert.SerializeObject(dto);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync($"api/Categories/", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(dto);
+        }
     }
 }

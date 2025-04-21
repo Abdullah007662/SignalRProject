@@ -1,0 +1,38 @@
+﻿ @model CreateDiscountDTO
+@{
+    ViewData["Title"] = "CreateDiscount";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-default rounded h-100 p-4">
+                <h6 class="mb-4 text-white">Yeni İndirim Ekleme Sayfası</h6>
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label text-white">Başlık</label>
+                        <input type="text" asp-for="Title" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Açıklama</label>
+                        <input type="text" asp-for="Description" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white">Miktar</label>
+                        <input type="text" asp-for="Amount" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Görsel</label>
+                        <input type="text" asp-for="ImageUrl" class="form-control" />
+                    </div>
+
+
+                    <button type="submit" class="btn btn-success">İndirimi Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

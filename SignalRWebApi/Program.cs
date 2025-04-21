@@ -2,34 +2,57 @@ using Microsoft.EntityFrameworkCore;
 using SignalRDataAccessLayer.Concrete;
 using SignalRBusinessLayer.Conteiner;
 using SignalRWebApi.Mapping;
+using SignalRWebApi.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// CORS Policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyHeader()
+              .AllowAnyMethod()
+              .SetIsOriginAllowed(_ => true)
+              .AllowCredentials();
+    });
+});
+
+// SignalR
+builder.Services.AddSignalR();
+
+// EF Core - SQL Server
 builder.Services.AddDbContext<SignalRContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Dependency Injection
 builder.Services.ConteinerDependencies();
 
+// AutoMapper
 builder.Services.AddAutoMapper(typeof(GeneralMapping));
 
+// MVC Controllers
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 
+app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<SignalRHub>("/signalrhub");
 
 app.Run();

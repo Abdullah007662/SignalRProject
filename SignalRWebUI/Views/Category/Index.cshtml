@@ -25,7 +25,7 @@
                 <td>@item.CategoryID</td>
                 <td>@item.CategoryName</td>
                 <td>@(item.Status ? "Aktif" : "Pasif")</td>
-                <td><a href="#" class="btn btn-outline-success btn-sm">Güncelle</a></td>
+                <td><a href="/Category/UpdateCategory/@item.CategoryID" class="btn btn-outline-success btn-sm">Güncelle</a></td>
                 <td><a href="#" class="btn btn-outline-danger btn-sm" onclick="deleteCategory(@item.CategoryID)">Sil</a></td>
             </tr>
         }

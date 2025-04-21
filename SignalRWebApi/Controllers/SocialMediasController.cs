@@ -45,7 +45,7 @@ namespace SignalRWebApi.Controllers
             socialMediaService.BDelete(value);
             return Ok("Başarılı Bir Şekilde Silindi");
         }
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var value = socialMediaService.BGetById(id);

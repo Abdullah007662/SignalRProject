@@ -44,7 +44,7 @@ namespace SignalRWebApi.Controllers
             _contactService.BDelete(value);
             return Ok("Başarılı Bir Şekilde Silindi");
         }
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var value = _contactService.BGetById(id);

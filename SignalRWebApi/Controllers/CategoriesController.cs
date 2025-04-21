@@ -26,6 +26,24 @@ namespace SignalRWebApi.Controllers
             var values = _mapper.Map<List<ResultCategoryDTO>>(_categoryService.BGetListAll());
             return Ok(values);
         }
+        [HttpGet("CategoryCount")]
+        public IActionResult CategoryCount()
+        {
+            var value = _categoryService.BCategoryCount();
+            return Ok(value);
+        }
+        [HttpGet("ActiveCategoryCount")]
+        public IActionResult ActiveCategoryCount()
+        {
+            var values = _categoryService.BActiveCategoryCount();
+            return Ok(values);
+        }
+        [HttpGet("PassiveCategoryCount")]
+        public IActionResult PassiveCategoryCount()
+        {
+            var values = _categoryService.BPasiveCategoryCount();
+            return Ok(values);
+        }
         [HttpPost]
         public IActionResult CreateCategory(CreateCategoryDTO createCategoryDTO)
         {
@@ -45,7 +63,7 @@ namespace SignalRWebApi.Controllers
             _categoryService.BUpdate(_mapper.Map<Category>(dTO));
             return Ok("Kategori Başarılı Bir Şekilde Güncellendi");
         }
-        [HttpGet("GetByID")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var value = _categoryService.BGetById(id);
