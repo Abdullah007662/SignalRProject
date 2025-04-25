@@ -32,16 +32,41 @@ namespace SignalRWebApi.Controllers
             var values = _productService.ProductCount();
             return Ok(values);
         }
-        [HttpGet("BProductCountByCategoryNameDrink")]
+        [HttpGet("ProductCountByCategoryNameDrink")]
         public IActionResult BProductCountByCategoryNameDrink()
         {
             var values = _productService.BProductCountByCategoryNameDrink();
             return Ok(values);
         }
-        [HttpGet("BProductCountByCategoryNameHamburger")]
+        [HttpGet("ProductCountByCategoryNameHamburger")]
+
         public IActionResult BProductCountByCategoryNameHamburger()
         {
             var values = _productService.BProductCountByCategoryNameHamburger();
+            return Ok(values);
+        }
+        [HttpGet("ProductPriceAvg")]
+        public IActionResult ProductPriceAvg()
+        {
+            var values = _productService.BProductPriceAvg();
+            return Ok(values);
+        }
+        [HttpGet("ProductAvgPriceByHamburger")]
+        public IActionResult ProductAvgPriceByHamburger()
+        {
+            var values = _productService.BProductAvgPriceByHamburger();
+            return Ok(values);
+        }
+        [HttpGet("ProductNamByMaxPrice")]
+        public IActionResult BProductNamByMaxPrice()
+        {
+            var values = _productService.BProductNamByMaxPrice();
+            return Ok(values);
+        }
+        [HttpGet("ProductNamByMinPrice")]
+        public IActionResult ProductNamByMinPrice()
+        {
+            var values = _productService.BProductNamByMinPrice();
             return Ok(values);
         }
         [HttpPost]

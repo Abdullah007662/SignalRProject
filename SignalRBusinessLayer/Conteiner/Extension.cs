@@ -51,6 +51,23 @@ namespace SignalRBusinessLayer.Conteiner
             Services.AddScoped<ITestimonialService, TestimonialManager>();
 
 
+            Services.AddScoped<IOrderDetailDal, EfOrderDetailDal>();
+            Services.AddScoped<IOrderDetailService, OrderDetailManager>();
+
+
+
+            Services.AddScoped<IOrderDal, EfOrderDal>();
+            Services.AddScoped<IOrderService, OrderManager>();
+
+
+            Services.AddScoped<IMoneyCaseDal, EfMoneyCaseDal>();
+            Services.AddScoped<IMoneyCaseService, MoneyCaseManager>();
+
+
+            Services.AddScoped<IMenuTableDal, EfMenuTableDal>();
+            Services.AddScoped<IMenuTableService, MenuTableManager>();
+
+
         }
     }
 }
