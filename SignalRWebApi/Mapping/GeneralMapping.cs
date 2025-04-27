@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SignalRDtoLayer.ApiDTO.AboutDTO;
+using SignalRDtoLayer.ApiDTO.BasketDTO;
 using SignalRDtoLayer.ApiDTO.BookingDTO;
 using SignalRDtoLayer.ApiDTO.CategoryDTO;
 using SignalRDtoLayer.ApiDTO.ContactDTO;
@@ -24,6 +25,11 @@ namespace SignalRWebApi.Mapping
             CreateMap<About, UpdateAboutDTO>().ReverseMap();
             #endregion
 
+
+            CreateMap<Basket, CreateBasketDTO>().ReverseMap();
+            CreateMap<Basket, ResultBasketDTO>().ReverseMap();
+            CreateMap<Basket, GetByIdBasketDTO>().ReverseMap();
+            CreateMap<Basket, UpdateBasketDTO>().ReverseMap();
 
             #region Booking Mapping
 

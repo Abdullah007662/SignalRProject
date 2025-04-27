@@ -9,6 +9,7 @@ using SignalRWebUI.DTO.ProductDTO;
 using SignalRWebUI.DTO.SocialMediaDTO;
 using SignalRWebUI.DTO.TestimonialDTO;
 using SignalREntityLayer.Entities;
+using SignalRWebUI.DTO.BasketDTO;
 
 namespace SignalRWebUI.Mapping
 {
@@ -90,7 +91,10 @@ namespace SignalRWebUI.Mapping
 
             #endregion
 
-
+            CreateMap<Basket, CreateBasketDTO>().ReverseMap();
+            CreateMap<Basket, ResultBasketDTO>().ReverseMap();
+            CreateMap<Basket, GetByIdBasketDTO>().ReverseMap();
+            CreateMap<Basket, UpdateBasketDTO>().ReverseMap();
 
 
             #region  SocialMedia Mapping

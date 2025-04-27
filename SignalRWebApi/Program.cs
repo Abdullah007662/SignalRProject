@@ -3,6 +3,7 @@ using SignalRDataAccessLayer.Concrete;
 using SignalRBusinessLayer.Conteiner;
 using SignalRWebApi.Mapping;
 using SignalRWebApi.Hubs;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,9 @@ builder.Services.AddDbContext<SignalRContext>(options =>
 
 // Dependency Injection
 builder.Services.ConteinerDependencies();
+
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(GeneralMapping));
