@@ -1,0 +1,70 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+@await Component.InvokeAsync("_DefaultHeadPartials")
+
+<body class="sub_page">
+
+    @await Component.InvokeAsync("_MenüNavBarPartials")
+
+    <section class="food_section layout_padding">
+        <div class="container">
+
+            <!-- SignalR Bağlantı Durumu -->
+            <h4 class="page-title">
+                Bağlantı durumu: <strong id="connstatus">Bağlantı yok</strong><br />
+                Anlık Client Sayısı: <strong id="clientCountValue">0</strong>
+            </h4>
+
+        </div>
+    </section>
+
+    @await Component.InvokeAsync("_DefaultFooterPartials")
+    @await Component.InvokeAsync("_DefaultScriptPartials")
+
+    <!-- JS Kütüphaneleri -->
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js" asp-append-version="true"></script>
+
+    <!-- SignalR CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
+
+    <!-- Bağlantı Scripti -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("https://localhost:7198/signalrhub")
+                .build();
+
+            // İlk bağlantı durumu "Bağlantı Yok"
+            $("#connstatus").text("Bağlantı yok");
+
+            // Bağlantıyı başlat
+            connection.start()
+                .then(() => {
+                    console.log("SignalR ile bağlantı kuruldu.");
+                    $("#connstatus").text("Bağlandı");
+                })
+                .catch((err) => {
+                    console.error("SignalR bağlantı hatası:", err.toString());
+                    $("#connstatus").text("Bağlantı yok");
+                });
+
+            // Bağlantı koparsa otomatik güncelle
+            connection.onclose(() => {
+                $("#connstatus").text("Bağlantı yok");
+            });
+
+            // Client sayısı güncelleme
+            connection.on("ReceiveClientCount", (clientCount) => {
+                $("#clientCountValue").text(clientCount);
+            });
+        });
+    </script>
+
+</body>
+</html>

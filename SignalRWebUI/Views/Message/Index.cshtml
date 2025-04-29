@@ -1,0 +1,132 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+@await Component.InvokeAsync("_DefaultHeadPartials")
+
+<body class="sub_page">
+
+    @await Component.InvokeAsync("_MenüNavBarPartials")
+
+    <section class="food_section layout_padding">
+        <div class="container">
+
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="text-center mb-4">💬 SignalR Restoran Canlı Sohbet</h3>
+                    </div>
+                </div>
+
+                <div class="row p-1">
+                    <div class="col-2">Kullanıcı Adınız:</div>
+                    <div class="col-5">
+                        <input type="text" id="userinput" class="form-control" placeholder="Adınızı girin..." />
+                    </div>
+                </div>
+
+                <div class="row p-1">
+                    <div class="col-2">Mesajınız:</div>
+                    <div class="col-5">
+                        <input type="text" id="messageinput" class="form-control" placeholder="Mesajınızı yazın..." />
+                    </div>
+                </div>
+
+                <div class="row p-1">
+                    <div class="col-2"></div>
+                    <div class="col-3">
+                        <input type="button" id="sendbutton" value="Mesaj Gönder" class="btn btn-warning" />
+                    </div>
+                </div>
+
+                <div class="row p-1">
+                    <div class="col-12"><hr /></div>
+                </div>
+
+                <div class="row p-1">
+                    <div class="col-12" style="max-height: 400px; overflow-y: auto;" id="chatbox">
+                        <ul id="messagelist" class="list-group"></ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    @await Component.InvokeAsync("_DefaultFooterPartials")
+    @await Component.InvokeAsync("_DefaultScriptPartials")
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js"></script>
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7198/signalrhub")
+            .build();
+
+        const userColors = {};
+
+        function getUserColor(username) {
+            if (!userColors[username]) {
+                // Random hex color
+                userColors[username] = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            }
+            return userColors[username];
+        }
+
+        function scrollToBottom() {
+            const chatBox = document.getElementById("chatbox");
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        document.getElementById("sendbutton").disabled = true;
+
+        connection.on("ReceiveMessage", function (user, message) {
+            const now = new Date();
+            const hour = now.getHours().toString().padStart(2, "0");
+            const minute = now.getMinutes().toString().padStart(2, "0");
+            const day = now.getDate().toString().padStart(2, "0");
+            const month = (now.getMonth() + 1).toString().padStart(2, "0");
+            const year = now.getFullYear();
+
+            const li = document.createElement("li");
+            li.classList.add("list-group-item");
+
+            const userColor = getUserColor(user);
+
+            li.innerHTML = `
+                        <strong style="color:${userColor}">${user}</strong>: ${message}
+                        <span class="text-muted float-end small">${day}.${month}.${year} ${hour}:${minute}</span>
+                    `;
+
+            document.getElementById("messagelist").appendChild(li);
+            scrollToBottom();
+        });
+
+        connection.start().then(function () {
+            document.getElementById("sendbutton").disabled = false;
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        document.getElementById("sendbutton").addEventListener("click", function (event) {
+            const user = document.getElementById("userinput").value.trim();
+            const message = document.getElementById("messageinput").value.trim();
+
+            if (user && message) {
+                connection.invoke("SendMessage", user, message).catch(function (err) {
+                    return console.error(err.toString());
+                });
+                document.getElementById("messageinput").value = "";
+            }
+
+            event.preventDefault();
+        });
+    </script>
+
+</body>
+
+</html>

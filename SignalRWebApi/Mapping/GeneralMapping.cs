@@ -6,6 +6,7 @@ using SignalRDtoLayer.ApiDTO.CategoryDTO;
 using SignalRDtoLayer.ApiDTO.ContactDTO;
 using SignalRDtoLayer.ApiDTO.DiscountDTO;
 using SignalRDtoLayer.ApiDTO.FeatureDTO;
+using SignalRDtoLayer.ApiDTO.MenüTable;
 using SignalRDtoLayer.ApiDTO.ProductDTO;
 using SignalRDtoLayer.ApiDTO.SocialMediaDTO;
 using SignalRDtoLayer.ApiDTO.TestimonialDTO;
@@ -97,7 +98,10 @@ namespace SignalRWebApi.Mapping
             #endregion
 
 
-
+            CreateMap<MenuTable, CreateMenüTableDTO>().ReverseMap();
+            CreateMap<MenuTable, GetByIdMenüTableDTO>().ReverseMap();
+            CreateMap<MenuTable, UpdateMenüTableDTO>().ReverseMap();
+            CreateMap<MenuTable, ResultMenüTableDTO>().ReverseMap();
 
             #region  SocialMedia Mapping
 

@@ -1,0 +1,102 @@
+﻿@model List<ResultMenüTableDTO>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<br />
+<h3 class="text-dark">Masa Listesi</h3>
+<br />
+
+<table class="table table-striped mt-3 text-white">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Adı</th>
+            <th scope="col">Durumu</th>
+            <th scope="col">Güncelle</th>
+            <th scope="col">Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@count</td>
+                <td>@item.Name</td>
+                <td>@item.Status</td>
+                <td>
+                    <a href="/MenüTable/UpdateMenuTable/@item.MenuTableID" class="btn btn-outline-success btn-sm">Güncelle</a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteProduct(@item.MenuTableID)">Sil</button>
+                </td>
+            </tr>
+            count++;
+        }
+    </tbody>
+</table>
+
+<br />
+<a href="/MenüTable/CreateMenuTable/" class="btn btn-outline-primary">Yeni Hakkımızda Ekle</a>
+
+<!-- SweetAlert2 & jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function deleteProduct(menuTableId) {
+        Swal.fire({
+            title: '⚠️ Silmek istediğinize emin misiniz?',
+            text: "Bu masayı silerseniz geri alamazsınız!",
+            icon: 'warning',
+            showCancelButton: true,
+            background: '#1e1e2f',
+            color: '#fff',
+            iconColor: '#ffcc00',
+            confirmButtonColor: '#ff007f',
+            cancelButtonColor: '#00ffff',
+            confirmButtonText: '🚀 Evet, sil!',
+            cancelButtonText: '❌ Vazgeç',
+            customClass: {
+                popup: 'animated tada',
+                confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-secondary'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/MenüTable/DeleteMenuTable/' + menuTableId,
+                    type: 'POST',
+                    success: function () {
+                        Swal.fire({
+                            title: '🗑️ Silindi!',
+                            text: 'Masa başarıyla silindi.',
+                            icon: 'success',
+                            background: '#1f2d3d',
+                            color: '#00ffcc',
+                            iconColor: '#00ffcc',
+                            confirmButtonColor: '#00ffaa'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: '💥 Hata!',
+                            text: 'Silme işlemi başarısız oldu.',
+                            icon: 'error',
+                            background: '#2f1e1e',
+                            color: '#ffaaaa',
+                            iconColor: '#ff4444',
+                            confirmButtonColor: '#ff4444'
+                        });
+                    }
+                });
+            }
+        });
+    }
+</script>

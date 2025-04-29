@@ -1,8 +1,70 @@
-﻿<div class="main-header">
+﻿<!-- Gerekli script dosyaları -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7198/signalrhub") // Backend URL doğru olmalı!
+            .withAutomaticReconnect()
+            .build();
+
+        $("#connstatus").text("Bağlantı kuruluyor...");
+
+        connection.start()
+            .then(() => {
+                console.log("Bağlantı kuruldu");
+                $("#connstatus").text("Bağlantı kuruldu ✅");
+
+                // İlk veri çağrısı
+                connection.invoke("SendNotification").catch(err => console.error(err.toString()));
+
+                // Belirli aralıkla veri yenile
+                setInterval(() => {
+                    connection.invoke("SendNotification").catch(err => console.error(err.toString()));
+                }, 5000);
+            })
+            .catch((err) => {
+                console.error("Bağlantı hatası:", err.toString());
+                $("#connstatus").text("Bağlantı kurulamadı ❌");
+            });
+
+        connection.onclose(() => {
+            $("#connstatus").text("Bağlantı kesildi ❌");
+        });
+
+        // Bildirim sayısını güncelle
+        connection.on("ReceiveNotificationCountByStatusFalse", function (value) {
+            console.log("Gelen bildirim sayısı:", value);
+            $("#notificationcountBystatusfalse").text(value);
+        });
+
+        // Bildirim listesini güncelle (DOĞRU event ismi!)
+        connection.on("ReceiveGetAllNotificationsByFalse", function (list) {
+            console.log("Gelen bildirim listesi:", list);
+            $("#notilist").empty();
+
+            list.forEach(function (item) {
+                $("#notilist").append(`
+                <a href="#">
+                    <div class="${item.type}"><i class="${item.icon}"></i></div>
+                    <div class="notif-content">
+                        <span class="block">${item.description}</span>
+                        <span class="time">${item.date}</span>
+                    </div>
+                </a>
+            `);
+            });
+        });
+    });
+</script>
+
+<!-- HEADER HTML -->
+<div class="main-header">
     <div class="logo-header">
-        <a href="index.html" class="logo">
-            SignalR Admin
-        </a>
+        <a href="index.html" class="logo">SignalR Admin</a>
         <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -13,7 +75,7 @@
 
             <form class="navbar-left navbar-form nav-search mr-md-3" action="">
                 <div class="input-group">
-                    <input type="text" placeholder="Aranacak Kelime.." class="form-control">
+                    <input type="text" placeholder="Aranacak Kelime..." class="form-control">
                     <div class="input-group-append">
                         <span class="input-group-text">
                             <i class="la la-search search-icon"></i>
@@ -21,98 +83,75 @@
                     </div>
                 </div>
             </form>
+
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
                 <li class="nav-item dropdown hidden-caret">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="la la-envelope"></i>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu" aria-labelledby="messagesDropdown">
                         <a class="dropdown-item" href="#">Gelen Mesajlar</a>
                         <a class="dropdown-item" href="#">Rezervasyon</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">İletişim</a>
                     </div>
                 </li>
+
                 <li class="nav-item dropdown hidden-caret">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="la la-bell"></i>
-                        <span class="notification">3</span>
+                        <span class="notification" id="notificationcountBystatusfalse">0</span>
                     </a>
-                    <ul class="dropdown-menu notif-box" aria-labelledby="navbarDropdown">
+                    <ul class="dropdown-menu notif-box" aria-labelledby="notificationsDropdown">
                         <li>
-                            <div class="dropdown-title">4 Yeni Bildirim</div>
+                            <div class="dropdown-title">Yeni Bildirimleriniz Var</div>
                         </li>
                         <li>
-                            <div class="notif-center">
-                                <a href="#">
-                                    <div class="notif-icon notif-primary"> <i class="la la-user-plus"></i> </div>
-                                    <div class="notif-content">
-                                        <span class="block">
-                                            New user registered
-                                        </span>
-                                        <span class="time">5 minutes ago</span>
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="notif-icon notif-success"> <i class="la la-comment"></i> </div>
-                                    <div class="notif-content">
-                                        <span class="block">
-                                            Rahmad commented on Admin
-                                        </span>
-                                        <span class="time">12 minutes ago</span>
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="notif-img">
-                                        <img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile2.jpg" alt="Img Profile">
-                                    </div>
-                                    <div class="notif-content">
-                                        <span class="block">
-                                            Reza send messages to you
-                                        </span>
-                                        <span class="time">12 minutes ago</span>
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="notif-icon notif-danger"> <i class="la la-heart"></i> </div>
-                                    <div class="notif-content">
-                                        <span class="block">
-                                            Farrah liked Admin
-                                        </span>
-                                        <span class="time">17 minutes ago</span>
-                                    </div>
-                                </a>
+                            <div class="notif-center" id="notilist">
+                                <!-- Dinamik Bildirimler Buraya Gelecek -->
                             </div>
                         </li>
                         <li>
-                            <a class="see-all" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="la la-angle-right"></i> </a>
+                            <a class="see-all" href="javascript:void(0);">
+                                <strong>Tüm Bildirimleri Görüntüle</strong> <i class="la la-angle-right"></i>
+                            </a>
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-item dropdown">
-                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile.jpg" alt="user-img" width="36" class="img-circle"><span>Hizrian</span></span> </a>
+                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile.jpg" alt="user-img" width="36" class="img-circle">
+                        <span>Hizrian</span>
+                    </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
                             <div class="user-box">
-                                <div class="u-img"><img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile.jpg" alt="user"></div>
+                                <div class="u-img">
+                                    <img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile.jpg" alt="user">
+                                </div>
                                 <div class="u-text">
                                     <h4>Admin</h4>
-                                    <p class="text-muted">SignalRAdmin@gmail.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">Menüyü Gör</a>
+                                    <p class="text-muted">SignalRAdmin@gmail.com</p>
+                                    <a href="profile.html" class="btn btn-rounded btn-danger btn-sm">Menüyü Gör</a>
                                 </div>
                             </div>
                         </li>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="ti-user"></i>Menü</a>
-                        <a class="dropdown-item" href="#"></i>Ayarlar</a>
+                        <a class="dropdown-item" href="#"><i class="ti-user"></i> Menü</a>
+                        <a class="dropdown-item" href="#"><i class="ti-settings"></i> Ayarlar</a>
                         <a class="dropdown-item" href="#"><i class="ti-email"></i> Dashboard</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="ti-settings"></i>Rezervasyonlar</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="fa fa-power-off"></i>Cıkış Yap</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-power-off"></i> Çıkış Yap</a>
                     </ul>
-                    <!-- /.dropdown-user -->
                 </li>
             </ul>
+
         </div>
     </nav>
+</div>
+
+<!-- Bağlantı Durumu Göstergesi -->
+<div style="padding:10px;">
+    Bağlantı Durumu: <span id="connstatus" style="font-weight:bold;">❔</span>
 </div>

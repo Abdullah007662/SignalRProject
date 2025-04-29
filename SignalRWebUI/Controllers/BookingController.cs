@@ -25,23 +25,27 @@ namespace SignalRWebUI.Controllers
             }
             return View();
         }
+
         [HttpGet]
         public IActionResult CreateBooking()
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> CreateBooking(CreateBookingDTO dTO)
+        public async Task<IActionResult> CreateBooking(CreateBookingDTO dto)
         {
-            var jsonData = JsonConvert.SerializeObject(dTO);
+            dto.Description = "Rezervasyon Alındı";
+            var jsonData = JsonConvert.SerializeObject(dto);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var reponse = await _httpClient.PostAsync("api/Abouts", content);
-            if (reponse.IsSuccessStatusCode)
+            var response = await _httpClient.PostAsync("api/Bookings", content);
+            if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
             }
             return View();
         }
+
         [HttpGet]
         public async Task<IActionResult> UpdateBooking(int id)
         {
@@ -54,10 +58,11 @@ namespace SignalRWebUI.Controllers
             }
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> UpdateBooking(UpdateBookingDTO dTO)
+        public async Task<IActionResult> UpdateBooking(UpdateBookingDTO dto)
         {
-            var jsonData = JsonConvert.SerializeObject(dTO);
+            var jsonData = JsonConvert.SerializeObject(dto);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync("api/Bookings", content);
             if (response.IsSuccessStatusCode)
@@ -66,15 +71,17 @@ namespace SignalRWebUI.Controllers
             }
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> DeleteBooking(int id)
         {
-            var responseMessage = await _httpClient.DeleteAsync($"api/Bookings/{id}");
-            if (responseMessage.IsSuccessStatusCode)
+            var response = await _httpClient.DeleteAsync($"api/Bookings/{id}");
+
+            if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index");
+                return Ok();
             }
-            return View();
+            return BadRequest();
         }
     }
 }

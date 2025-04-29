@@ -1,0 +1,79 @@
+﻿@model List<ResultMenüTableDTO>
+@{
+    ViewData["Title"] = "TableListByStatus";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<!-- Bağımlılıklar -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">
+            📊 Anlık Masa Durumları Sayfası
+        </h4>
+
+        <div id="statuslist" class="row mt-4">
+            <!-- SignalR'dan gelen kartlar buraya basılacak -->
+        </div>
+    </div>
+</div>
+
+<!-- SignalR & UI Mantığı -->
+<script type="text/javascript">
+    $(document).ready(() => {
+        // SignalR bağlantısını başlat
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7198/SignalRHub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        $("#connstatus").text("Bağlantı kuruluyor...");
+
+        connection.start().then(() => {
+            $("#connstatus").text("✔️ Bağlandı");
+            // Her 1 saniyede bir güncelleme isteği gönder
+            setInterval(() => {
+                connection.invoke("GetMenuTableStatus");
+            }, 1000);
+        }).catch((err) => {
+            $("#connstatus").text("❌ Bağlantı başarısız");
+            console.error(err);
+        });
+
+        // Durum verileri geldiğinde kartları güncelle
+        connection.on("ReceiveMenuTableStatus", (value) => {
+            let tablehtml = `<div class="row">`;
+
+            $.each(value, (index, item) => {
+                let colorClass = item.status === true ? "card-success" : "card-danger";
+                let statusText = item.status === true ? "Masa Dolu" : "Masa Boş";
+
+                tablehtml += `
+                    <div class="col-md-3 mb-4">
+                        <div class="card card-stats ${colorClass}">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-5 text-center">
+                                            <i class="la la-tv icon-big"></i>
+                                    </div>
+                                    <div class="col-7 d-flex align-items-center">
+                                        <div class="numbers">
+                                            <p class="card-category">${item.name}</p>
+                                            <h4 class="card-title">${statusText}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+
+            tablehtml += "</div>";
+            $("#statuslist").html(tablehtml);
+        });
+    });
+</script>

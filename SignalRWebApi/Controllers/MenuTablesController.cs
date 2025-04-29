@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SignalRBusinessLayer.Abstract;
 using SignalRDataAccessLayer.Concrete;
+using SignalRDtoLayer.ApiDTO.MenüTable;
+using SignalREntityLayer.Entities;
 
 namespace SignalRWebApi.Controllers
 {
@@ -12,11 +15,13 @@ namespace SignalRWebApi.Controllers
     {
         private readonly IMenuTableService _menuTableService;
         private readonly SignalRContext _context;
+        private readonly IMapper _mapper;
 
-        public MenuTablesController(IMenuTableService menuTableService, SignalRContext context)
+        public MenuTablesController(IMenuTableService menuTableService, SignalRContext context, IMapper mapper)
         {
             _menuTableService = menuTableService;
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet("MenuTableCount")]
@@ -53,6 +58,39 @@ namespace SignalRWebApi.Controllers
             _context.SaveChanges(); // Değişiklikleri kaydet
 
             return Ok("Masa aktif hale getirildi.");
+        }
+        [HttpGet("MenuTableList")]
+        public IActionResult MenuTableList()
+        {
+            var menütableDTOs = _mapper.Map<List<ResultMenüTableDTO>>(_menuTableService.BGetListAll());
+            return Ok(menütableDTOs);
+        }
+
+        [HttpPost]
+        public IActionResult CreateMenuTable(CreateMenüTableDTO createMenüTableDTO)
+        {
+            _menuTableService.BAdd(_mapper.Map<MenuTable>(createMenüTableDTO));
+            return Ok("Masa bilgisi başarıyla eklendi.");
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteMenuTable(int id)
+        {
+            var menütable = _menuTableService.BGetById(id);
+            _menuTableService.BDelete(menütable);
+            return Ok("Masa bilgisi başarıyla silindi.");
+        }
+        [HttpPut]
+        public IActionResult UpdateMenuTable(UpdateMenüTableDTO updateMenüTableDTO)
+        {
+            _menuTableService.BUpdate(_mapper.Map<MenuTable>(updateMenüTableDTO));
+            return Ok("Masa bilgisi başarıyla güncellendi.");
+        }
+        [HttpGet("{id}")]
+        public IActionResult MenuTableGetById(int id)
+        {
+            var value = _menuTableService.BGetById(id);
+            return Ok(value);
         }
     }
 }

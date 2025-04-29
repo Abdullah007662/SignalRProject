@@ -1,0 +1,98 @@
+﻿@model List<ResultNotificationDTO>
+
+@{
+    ViewData["Title"] = "Bildirimler";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<br />
+<br />
+
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Açıklama</th>
+            <th scope="col">Durumu</th>
+            <th scope="col">Güncelle</th>
+            <th scope="col">Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@count</td> <!-- Burada count'ı yazdırıyoruz -->
+                <td>@item.Description</td>
+                <td>@(item.Status ? "Okundu" : "Okunmadı")</td>
+                <td>
+                    <a href="/Notification/UpdateNotification/@item.NotificationID" class="btn btn-outline-success btn-sm">Güncelle</a>
+                </td>
+                <td>
+                    <button class="btn btn-outline-danger btn-sm" onclick="deleteNotification(@item.NotificationID)">Sil</button>
+                </td>
+            </tr>
+            count++;
+            <!-- Burada count değerini artırıyoruz -->
+        }
+    </tbody>
+</table>
+
+<br />
+<a href="/Notification/CreateNotification/" class="btn btn-outline-primary">Yeni Bildirim Ekle</a>
+
+<!-- SweetAlert ve jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function deleteNotification(notificationId) {
+        Swal.fire({
+            title: 'Bildirimi silmek istiyor musunuz?',
+            text: "Bu işlem geri alınamaz!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Vazgeç',
+            confirmButtonText: 'Evet, sil!',
+            reverseButtons: true,
+            showCloseButton: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/Notification/DeleteNotification/' + notificationId,
+                    type: 'POST',
+                    success: function (response) {
+                        Swal.fire({
+                            title: 'Silindi!',
+                            text: 'Bildirim başarıyla silindi.',
+                            icon: 'success',
+                            confirmButtonText: 'Tamam'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: 'Hata!',
+                            text: 'Bildirimi silerken bir hata oluştu.',
+                            icon: 'error',
+                            confirmButtonText: 'Tamam'
+                        });
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire({
+                    title: 'İptal Edildi',
+                    text: 'Bildirim silinmedi.',
+                    icon: 'info',
+                    confirmButtonText: 'Tamam'
+                });
+            }
+        });
+    }
+</script>
