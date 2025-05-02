@@ -7,6 +7,7 @@ using SignalRDtoLayer.ApiDTO.ContactDTO;
 using SignalRDtoLayer.ApiDTO.DiscountDTO;
 using SignalRDtoLayer.ApiDTO.FeatureDTO;
 using SignalRDtoLayer.ApiDTO.MenüTable;
+using SignalRDtoLayer.ApiDTO.MessageDTO;
 using SignalRDtoLayer.ApiDTO.ProductDTO;
 using SignalRDtoLayer.ApiDTO.SocialMediaDTO;
 using SignalRDtoLayer.ApiDTO.TestimonialDTO;
@@ -31,6 +32,14 @@ namespace SignalRWebApi.Mapping
             CreateMap<Basket, ResultBasketDTO>().ReverseMap();
             CreateMap<Basket, GetByIdBasketDTO>().ReverseMap();
             CreateMap<Basket, UpdateBasketDTO>().ReverseMap();
+
+
+
+
+            CreateMap<Message, CreateMessageDTO>().ReverseMap();
+            CreateMap<Message, ResultMessageDTO>().ReverseMap();
+            CreateMap<Message, GetByIdMessageDTO>().ReverseMap();
+            CreateMap<Message, UpdateMessageDTO>().ReverseMap();
 
             #region Booking Mapping
 

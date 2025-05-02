@@ -11,6 +11,7 @@
 <table class="table table-striped mt-3">
     <thead>
         <tr>
+            <th scope="col">#</th>
             <th scope="col">Lokasyon</th>
             <th scope="col">Telefon Numarası</th>
             <th scope="col">Email</th>
@@ -20,9 +21,13 @@
         </tr>
     </thead>
     <tbody>
+        @{
+            int count = 1;
+        }
         @foreach (var item in Model)
         {
             <tr>
+                <td>@count</td>
                 <td>@item.Location</td>
                 <td>@item.PhoneNumber</td>
                 <td>@item.Email</td>
@@ -30,6 +35,7 @@
                 <td><a href="/Contact/UpdateContact/@item.ContactID" class="btn btn-outline-success btn-sm">Güncelle</a></td>
                 <td><a href="#" class="btn btn-outline-danger btn-sm" onclick="deleteCategory(@item.ContactID)">Sil</a></td>
             </tr>
+            count++;
         }
     </tbody>
 </table>

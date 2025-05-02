@@ -62,31 +62,35 @@
             const bookings = data; // Artık JSON.parse yok!
 
             let tableHtml = `
-                <table class="table table-striped mt-3">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Ad Soyad</th>
-                            <th>Telefon</th>
-                            <th>Email</th>
-                            <th>Açıklama</th>
-                            <th>Güncelle</th>
-                            <th>Sil</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
+                    <table class="table table-striped mt-3">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ad Soyad</th>
+                                <th>Telefon</th>
+                                <th>Email</th>
+                                <th>Açıklama</th>
+                                <th>Güncelle</th>
+                                <th>Onayla</th>
+                                <th>İptal Et</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
 
             bookings.forEach((item, index) => {
                 tableHtml += `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${item.name}</td>
-                    <td>${item.phoneNumber}</td>
-                    <td>${item.email}</td>
-                    <td>${item.description}</td>
-                    <td><a href="/Booking/UpdateBooking/${item.bookingID}" class="btn btn-outline-success btn-sm">Güncelle</a></td>
-                    <td><button class="btn btn-outline-danger btn-sm" onclick="deleteBooking(${item.bookingID})">Sil</button></td>
-                </tr>`;
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${item.name}</td>
+                        <td>${item.phoneNumber}</td>
+                        <td>${item.email}</td>
+                        <td>${item.description}</td>
+                        <td><a href="/Booking/UpdateBooking/${item.bookingID}" class="btn btn-outline-success btn-sm">Güncelle</a></td>
+                        <td><a href="/Booking/BookingStatusApproved/${item.bookingID}" class="btn btn-outline-info btn-sm">Onayla</a></td>
+                        <td><a href="/Booking/BookingStatusCancelled/${item.bookingID}" class="btn btn-outline-dark btn-sm">İptal Et</a></td>
+                        <td><button class="btn btn-outline-danger btn-sm" onclick="deleteBooking(${item.bookingID})">Sil</button></td>
+                    </tr>`;
             });
 
             tableHtml += `</tbody></table>`;

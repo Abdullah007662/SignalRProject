@@ -11,6 +11,7 @@
 <table class="table table-striped mt-3 text-white">
     <thead>
         <tr>
+            <th scope="col">#</th>
             <th scope="col">Ürün Adı</th>
             <th scope="col">Fiyat</th>
             <th scope="col">Kategori</th>
@@ -20,9 +21,13 @@
         </tr>
     </thead>
     <tbody>
+        @{
+            int count = 1;
+        }
         @foreach (var item in Model)
         {
             <tr>
+                <td>@count</td>
                 <td>@item.ProductName</td>
                 <td>@item.Price ₺</td>
                 <td>@item.CategoryName</td>
@@ -34,6 +39,7 @@
                     <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteProduct(@item.ProductID)">Sil</button>
                 </td>
             </tr>
+            count++;
         }
     </tbody>
 </table>

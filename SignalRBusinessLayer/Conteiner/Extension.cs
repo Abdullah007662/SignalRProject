@@ -83,6 +83,11 @@ namespace SignalRBusinessLayer.Conteiner
             Services.AddScoped<INotificationService, NotificationManager>();
 
 
+
+            Services.AddScoped<IMessageDal, EfMessageDal>();
+            Services.AddScoped<IMessageService, MessageManager>();
+
+
         }
     }
 }

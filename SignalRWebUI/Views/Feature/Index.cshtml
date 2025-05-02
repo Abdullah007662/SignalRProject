@@ -11,6 +11,7 @@
 <table class="table table-striped mt-3 text-white">
     <thead>
         <tr>
+            <th scope="col">#</th>
             <th scope="col">Başlık 1</th>
             <th scope="col">Açıklama 1</th>
             <th scope="col">Başlık 2</th>
@@ -22,9 +23,13 @@
         </tr>
     </thead>
     <tbody>
+        @{
+            int count = 1;
+        }
         @foreach (var item in Model)
         {
             <tr>
+                <td>@count</td>
                 <td>@item.Title1</td>
                 <td>@item.Dexcription1</td>
                 <td>@item.Title2</td>
@@ -38,6 +43,7 @@
                     <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteProduct(@item.FeatureID)">Sil</button>
                 </td>
             </tr>
+            count++;
         }
     </tbody>
 </table>

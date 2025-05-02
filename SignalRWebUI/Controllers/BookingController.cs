@@ -83,5 +83,18 @@ namespace SignalRWebUI.Controllers
             }
             return BadRequest();
         }
+        [HttpGet]
+        public async Task<IActionResult> BookingStatusApproved(int id)
+        {
+            await _httpClient.GetAsync($"api/Bookings/BookingStatusApproved/{id}");
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public async Task<IActionResult> BookingStatusCancelled(int id)
+        {
+            await _httpClient.GetAsync($"api/Bookings/BookingStatusCancelled/{id}");
+            return RedirectToAction("Index");
+        }
+
     }
 }

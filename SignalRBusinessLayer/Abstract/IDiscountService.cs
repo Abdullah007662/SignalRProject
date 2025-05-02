@@ -9,5 +9,7 @@ namespace SignalRBusinessLayer.Abstract
 {
     public interface IDiscountService : IGenericService<Discount>
     {
+        void BChangeStatusToTrue(int id);
+        void BChangeStatusToFalse(int id);
     }
 }

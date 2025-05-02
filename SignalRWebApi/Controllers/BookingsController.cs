@@ -45,8 +45,7 @@ namespace SignalRWebApi.Controllers
         public IActionResult DeleteBooking(int id)
         {
             var bookingDto = _bookingService.BGetById(id);
-            var bookingEntity = _mapper.Map<Booking>(id);
-            _bookingService.BDelete(bookingEntity);
+            _bookingService.BDelete(bookingDto);
             return Ok("Rezervasyon Başarılı Bir Şekilde Silindi");
         }
         [HttpGet("{id}")]
@@ -54,6 +53,18 @@ namespace SignalRWebApi.Controllers
         {
             var value = _bookingService.BGetById(id);
             return Ok(value);
+        }
+        [HttpGet("BookingStatusApproved/{id}")]
+        public IActionResult BookingStatusApproved(int id)
+        {
+            _bookingService.BBookingStatusApproved(id); ;
+            return Ok("Rezeryasyon Güncellendi");
+        }
+        [HttpGet("BookingStatusCancelled/{id}")]
+        public IActionResult BookingStatusCancelled(int id)
+        {
+            _bookingService.BBookingStatusCancelled(id); ;
+            return Ok("Rezeryasyon Güncellendi");
         }
     }
 

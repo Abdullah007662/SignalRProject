@@ -50,5 +50,17 @@ namespace SignalRWebApi.Controllers
             var value = _discountService.BGetById(id);
             return Ok(value);
         }
+        [HttpGet("ChangeStatusToFalse/{id}")]
+        public IActionResult ChangeStatusToFalse(int id)
+        {
+            _discountService.BChangeStatusToFalse(id);
+            return Ok("Durumu Güncellendi");
+        }
+        [HttpGet("ChangeStatusToTrue/{id}")]
+        public IActionResult ChangeStatusToTrue(int id)
+        {
+            _discountService.BChangeStatusToTrue(id);
+            return Ok("Durumu Güncellendi");
+        }
     }
 }

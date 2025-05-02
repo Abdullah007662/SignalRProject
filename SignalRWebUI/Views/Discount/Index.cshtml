@@ -5,7 +5,7 @@
 }
 
 <br />
-<h3 class="text-dark">Hakkımız Listesi</h3>
+<h3 class="text-dark">Öne Çıkan  Listesi</h3>
 <br />
 
 <table class="table table-striped mt-3 text-white">
@@ -14,6 +14,7 @@
             <th scope="col">Başlık</th>
             <th scope="col">Açıklama</th>
             <th scope="col">Görsel</th>
+            <th scope="col">Durum</th>
             <th scope="col">Miktar</th>
             <th scope="col">Güncelle</th>
             <th scope="col">Sil</th>
@@ -26,9 +27,16 @@
                 <td>@item.Title</td>
                 <td>@item.Description</td>
                 <td>@item.ImageUrl</td>
+                <td>@item.Status</td>
                 <td>@item.Amount</td>
                 <td>
                     <a href="/Discount/UpdateDiscount/@item.DiscountID" class="btn btn-outline-success btn-sm">Güncelle</a>
+                </td>
+                <td>
+                    <a href="/Discount/ChangeStatusToTrue/@item.DiscountID" class="btn btn-outline-info btn-sm">Aktif Yap</a>
+                </td>
+                <td>
+                    <a href="/Discount/ChangeStatusToFalse/@item.DiscountID" class="btn btn-outline-dark btn-sm">Pasif Yap</a>
                 </td>
                 <td>
                     <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteProduct(@item.DiscountID)">Sil</button>
@@ -39,7 +47,7 @@
 </table>
 
 <br />
-<a href="/Discount/CreateDiscount/" class="btn btn-outline-primary">Yeni Hakkımızda Ekle</a>
+<a href="/Discount/CreateDiscount/" class="btn btn-outline-primary">Yeni Öne Çıkan Ekle</a>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
