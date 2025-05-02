@@ -76,6 +76,28 @@ namespace SignalRWebApi.Hubs
             await Clients.All.SendAsync("ReceiveActiveOrderCount", activeOrdercount);
             await Clients.All.SendAsync("ReceiveMenuTableCount", menuTablecount);
 
+
+            var value5 = _productService.BProductPriceAvg();
+            await Clients.All.SendAsync("ReceiveProductPriceAvg", value5);
+
+            var value6 = _productService.BProductAvgPriceByHamburger();
+            await Clients.All.SendAsync("ReceiveAvgPriceByHamburger", value6);
+
+            var value7 = _productService.BProductCountByCategoryNameDrink();
+            await Clients.All.SendAsync("ReceiveProductCountByCategoryNameDrink", value7);
+
+            var value8 = _orderService.BTotalOrderCount();
+            await Clients.All.SendAsync("ReceiveTotalOrderCount", value8);
+
+            var value9 = _productService.BProductPriceBySteakBurger();
+            await Clients.All.SendAsync("ReceiveProductPriceBySteakBurger", value9);
+
+            var value10 = _productService.BTotalPriceByDrinkCategory();
+            await Clients.All.SendAsync("ReceiveTotalPriceByDrinkCategory", value10);
+
+            var value11 = _productService.BTotalPriceBySaladCategory();
+            await Clients.All.SendAsync("ReceiveTotalPriceBySaladCategory", value11);
+
         }
 
 

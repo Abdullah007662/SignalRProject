@@ -16,6 +16,9 @@ namespace SignalRBusinessLayer.Abstract
         decimal BProductPriceAvg();
         string? BProductNamByMaxPrice();
         string? BProductNamByMinPrice();
+        public decimal BProductPriceBySteakBurger();
+        public decimal BTotalPriceByDrinkCategory();
+        public decimal BTotalPriceBySaladCategory();
 
         decimal BProductAvgPriceByHamburger();
 

@@ -63,5 +63,22 @@ namespace SignalRDataAccessLayer.EntityFrameWork
         {
             return _context.Products.Where(x => x.CategoryID == (_context.Categories.Where(y => y.CategoryName == "Hamburger").Select(z => z.CategoryID).FirstOrDefault())).Average(w => w.Price);
         }
+
+        public decimal ProductPriceBySteakBurger()
+        {
+            return _context.Products.Where(x => x.ProductName == "Steak Burger").Select(y => y.Price).FirstOrDefault();
+        }
+
+        public decimal TotalPriceByDrinkCategory()
+        {
+            int id = _context.Categories.Where(x => x.CategoryName == "İçecek").Select(y => y.CategoryID).FirstOrDefault();
+            return _context.Products.Where(x => x.CategoryID == id).Sum(y => y.Price);
+        }
+
+        public decimal TotalPriceBySaladCategory()
+        {
+            int id = _context.Categories.Where(x => x.CategoryName == "Salata").Select(y => y.CategoryID).FirstOrDefault();
+            return _context.Products.Where(x => x.CategoryID == id).Sum(y => y.Price);
+        }
     }
 }
